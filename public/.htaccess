@@ -1,0 +1,13 @@
+# Impide que Apache muestre el listado de archivos de una carpeta
+Options -Indexes
+
+RewriteEngine On
+
+# Si lo pedido NO es un archivo real (css, js, imagen)
+# y tampoco es una carpeta real...
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ...entonces manda todo a index.php, guardando la ruta en el parámetro "url".
+# Ejemplo: /auth/login  ->  index.php?url=auth/login
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
