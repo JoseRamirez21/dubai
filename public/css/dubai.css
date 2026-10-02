@@ -1,0 +1,522 @@
+/* =====================================================================
+   DUBAI – Nightclub Manager | Estilos propios
+   Se carga DESPUÉS de Bootstrap para personalizarlo (no se ve genérico).
+   Organización: 1. Fuentes  2. Variables  3. Base  4. Componentes
+                 5. Login    6. Panel      7. Accesibilidad
+   ===================================================================== */
+
+/* ---------- 1. FUENTES LOCALES (si faltan, se usa la fuente del sistema) ---------- */
+@font-face {
+    font-family: "Playfair Display";
+    src: url("../fonts/playfair-display-700.woff2") format("woff2");
+    font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: "Poppins";
+    src: url("../fonts/poppins-400.woff2") format("woff2");
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: "Poppins";
+    src: url("../fonts/poppins-500.woff2") format("woff2");
+    font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: "Poppins";
+    src: url("../fonts/poppins-600.woff2") format("woff2");
+    font-weight: 600; font-style: normal; font-display: swap;
+}
+
+/* ---------- 2. VARIABLES (paleta y medidas del sistema) ---------- */
+:root {
+    /* Colores de marca */
+    --dubai-bg:        #0B0B0D;   /* negro carbón: fondo */
+    --dubai-surface:   #16161A;   /* gris oscuro: tarjetas y paneles */
+    --dubai-surface-2: #1E1E24;   /* un tono más claro: campos de texto */
+    --dubai-gold:      #D4AF37;   /* dorado: color principal */
+    --dubai-yellow:    #FFC83D;   /* amarillo: detalles y botones de acción */
+    --dubai-text:      #F5F1E8;   /* blanco hueso: texto */
+    --dubai-muted:     #ABA79A;   /* texto secundario (buen contraste) */
+
+    /* Estados (tonos suaves) */
+    --dubai-ok:        #6FCF97;
+    --dubai-warn:      #F2B84B;
+    --dubai-danger:    #EB7272;
+
+    /* Bordes, sombras y animación */
+    --dubai-border:    rgba(212, 175, 55, 0.28);
+    --dubai-radius:    14px;
+    --dubai-shadow:    0 12px 34px rgba(0, 0, 0, 0.55);
+    --dubai-rapido:    180ms ease;   /* transiciones entre 150 y 250 ms */
+
+    /* Tipografías (con respaldo del sistema) */
+    --dubai-fuente-titulo: "Playfair Display", Georgia, "Times New Roman", serif;
+    --dubai-fuente-texto:  "Poppins", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Conectamos nuestras variables con las de Bootstrap (modo oscuro) */
+[data-bs-theme="dark"] {
+    --bs-body-bg:            var(--dubai-bg);
+    --bs-body-color:         var(--dubai-text);
+    --bs-body-font-family:   var(--dubai-fuente-texto);
+    --bs-secondary-color:    var(--dubai-muted);
+    --bs-border-color:       var(--dubai-border);
+    --bs-link-color:         var(--dubai-gold);
+    --bs-link-hover-color:   var(--dubai-yellow);
+    --bs-form-invalid-color:        var(--dubai-danger);
+    --bs-form-invalid-border-color: var(--dubai-danger);
+    --bs-form-valid-color:          var(--dubai-ok);
+    --bs-form-valid-border-color:   var(--dubai-ok);
+}
+
+/* ---------- 3. BASE ---------- */
+body {
+    background: var(--dubai-bg);
+    color: var(--dubai-text);
+    font-family: var(--dubai-fuente-texto);
+    -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: var(--dubai-fuente-titulo); }
+.text-secondary { color: var(--dubai-muted) !important; }
+
+/* ---------- 4. COMPONENTES ---------- */
+
+/* Botón principal dorado */
+.btn-dubai {
+    background: linear-gradient(135deg, var(--dubai-gold), var(--dubai-yellow));
+    color: #1A1505;
+    font-weight: 600;
+    border: 0;
+    border-radius: 10px;
+    transition: transform var(--dubai-rapido), box-shadow var(--dubai-rapido), filter var(--dubai-rapido);
+}
+.btn-dubai:hover {
+    color: #1A1505;
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(212, 175, 55, 0.35);
+}
+.btn-dubai:active { transform: translateY(0); }
+
+/* Botón secundario: solo borde dorado */
+.btn-dubai-outline {
+    background: transparent;
+    color: var(--dubai-gold);
+    border: 1px solid var(--dubai-border);
+    border-radius: 10px;
+    transition: background var(--dubai-rapido), color var(--dubai-rapido), border-color var(--dubai-rapido);
+}
+.btn-dubai-outline:hover {
+    background: var(--dubai-gold);
+    color: #1A1505;
+    border-color: var(--dubai-gold);
+}
+
+/* Campos de formulario oscuros */
+.form-label { color: var(--dubai-muted); font-size: 0.875rem; font-weight: 500; }
+.form-control,
+.input-group-text {
+    background: var(--dubai-surface-2);
+    color: var(--dubai-text);
+    border-color: var(--dubai-border);
+    transition: border-color var(--dubai-rapido), box-shadow var(--dubai-rapido);
+}
+.input-group-text { color: var(--dubai-gold); }
+.form-control::placeholder { color: #77746A; }
+.form-control:focus {
+    background: var(--dubai-surface-2);
+    color: var(--dubai-text);
+    border-color: var(--dubai-gold);
+    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+}
+/* Evita que el autocompletado del navegador pinte el campo de blanco */
+.form-control:-webkit-autofill {
+    -webkit-text-fill-color: var(--dubai-text);
+    box-shadow: 0 0 0 1000px var(--dubai-surface-2) inset;
+    caret-color: var(--dubai-text);
+}
+/* Botón de ojo (mostrar contraseña) */
+.btn-toggle {
+    background: var(--dubai-surface-2);
+    color: var(--dubai-muted);
+    border: 1px solid var(--dubai-border);
+    border-left: 0;
+    transition: color var(--dubai-rapido);
+}
+.btn-toggle:hover { color: var(--dubai-gold); }
+
+/* Alertas suaves */
+.dubai-alert {
+    border-radius: 10px;
+    font-size: 0.9rem;
+    border-width: 1px;
+}
+.alert-danger  { background: rgba(235, 114, 114, 0.12); border-color: rgba(235, 114, 114, 0.4); color: var(--dubai-danger); }
+.alert-warning { background: rgba(242, 184, 75, 0.12);  border-color: rgba(242, 184, 75, 0.4);  color: var(--dubai-warn); }
+.alert-success { background: rgba(111, 207, 151, 0.12); border-color: rgba(111, 207, 151, 0.4); color: var(--dubai-ok); }
+
+/* Tarjeta con borde dorado sutil y sombra suave */
+.card-dubai {
+    background: var(--dubai-surface);
+    border: 1px solid var(--dubai-border);
+    border-radius: var(--dubai-radius);
+    box-shadow: var(--dubai-shadow);
+    padding: 1.5rem;
+    transition: transform var(--dubai-rapido), border-color var(--dubai-rapido);
+}
+.card-dubai:hover { transform: translateY(-3px); border-color: var(--dubai-gold); }
+
+/* ---------- 5. LOGIN ---------- */
+.login-page {
+    min-height: 100vh;
+    min-height: 100dvh;             /* 100dvh evita saltos con la barra del navegador móvil */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.16), transparent 45%),
+        radial-gradient(circle at 85% 90%, rgba(255, 200, 61, 0.09), transparent 45%),
+        var(--dubai-bg);
+}
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background: var(--dubai-surface);
+    border: 1px solid var(--dubai-border);
+    border-radius: 18px;
+    box-shadow: var(--dubai-shadow);
+    padding: 2.25rem 2rem;
+}
+.brand-icon  { font-size: 2rem; color: var(--dubai-gold); }
+.brand-title {
+    font-size: clamp(2rem, 8vw, 2.75rem);   /* crece o se reduce según la pantalla */
+    letter-spacing: 0.35em;
+    margin: 0.25rem 0 0 0.35em;              /* compensa el espacio final del letter-spacing */
+    color: var(--dubai-gold);
+}
+.brand-subtitle {
+    color: var(--dubai-muted);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    margin: 0;
+}
+.login-nota {
+    text-align: center;
+    color: var(--dubai-muted);
+    font-size: 0.78rem;
+    margin: 1.5rem 0 0;
+}
+
+/* ---------- 6. PANEL PROVISIONAL ---------- */
+.topbar {
+    background: var(--dubai-surface);
+    border-bottom: 1px solid var(--dubai-border);
+    padding: 0.75rem 1rem;
+    position: sticky;     /* queda visible arriba al hacer scroll */
+    top: 0;
+    z-index: 1020;
+}
+/* FALTABA: sin esto, los elementos de la barra se amontonaban sin orden */
+.topbar-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.topbar-usuario { color: var(--dubai-muted); font-size: 0.9rem; }
+.badge-rol {
+    background: rgba(212, 175, 55, 0.14);
+    color: var(--dubai-gold);
+    border: 1px solid var(--dubai-border);
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+}
+.titulo-pagina { font-size: clamp(1.5rem, 4vw, 2.1rem); color: var(--dubai-text); }
+.card-icono    { font-size: 1.75rem; color: var(--dubai-gold); }
+.card-titulo   { font-size: 1.15rem; margin: 0.75rem 0 0.25rem; }
+.card-detalle  { color: var(--dubai-muted); font-size: 0.875rem; margin-bottom: 1rem; }
+.etiqueta-pronto {
+    font-size: 0.7rem;
+    color: var(--dubai-yellow);
+    border: 1px dashed var(--dubai-border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+}
+
+/* ---------- 7. ACCESIBILIDAD Y AJUSTES DE PANTALLA ---------- */
+/* Foco visible con teclado: siempre se sabe dónde está el cursor */
+:focus-visible {
+    outline: 2px solid var(--dubai-yellow);
+    outline-offset: 2px;
+}
+.form-control:focus-visible { outline: none; }   /* ya tiene su propio anillo dorado */
+
+/* Celulares muy angostos */
+@media (max-width: 380px) {
+    .login-card { padding: 1.75rem 1.25rem; }
+    .brand-title { letter-spacing: 0.25em; }
+}
+
+/* Pantallas bajas (celular en horizontal): el contenido se alinea arriba y se desplaza */
+@media (max-height: 540px) {
+    .login-page { align-items: flex-start; }
+}
+
+/* Personas que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* ---------- 8. PÁGINAS DE ERROR (403, 404, 419) ---------- */
+/* Reutilizan .login-page y .login-card; solo agregamos lo propio del error */
+.error-card   { text-align: center; }
+.error-codigo {
+    font-family: var(--dubai-fuente-titulo);
+    font-size: clamp(3.5rem, 18vw, 5.5rem);
+    line-height: 1;
+    color: var(--dubai-gold);
+    margin: 0.5rem 0 0;
+}
+.error-titulo  { font-size: 1.4rem; margin: 0.75rem 0 0.5rem; }
+.error-mensaje { color: var(--dubai-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+
+
+/* ---------- 9. SIDEBAR (menú lateral) ---------- */
+.app-shell { min-height: 100vh; min-height: 100dvh; }
+
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;          /* top:0 right:auto bottom:0 left:0 */
+    width: 264px;
+    background: var(--dubai-surface);
+    border-right: 1px solid var(--dubai-border);
+    padding: 1.25rem 0.9rem;
+    overflow-y: auto;
+    z-index: 1040;
+    transform: translateX(-100%);           /* oculto por defecto (celular) */
+    transition: transform var(--dubai-rapido);
+}
+.sidebar.abierto { transform: translateX(0); }   /* se abre en celular */
+
+.sidebar-marca {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--dubai-fuente-titulo);
+    color: var(--dubai-gold);
+    font-size: 1.15rem;
+    letter-spacing: 0.18em;
+    padding: 0.4rem 0.6rem 1.25rem;
+}
+
+.sidebar-nav { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 10px;
+    color: var(--dubai-muted);
+    text-decoration: none;
+    font-size: 0.925rem;
+    transition: background var(--dubai-rapido), color var(--dubai-rapido);
+}
+.sidebar-link i { font-size: 1.05rem; width: 1.2rem; text-align: center; }
+.sidebar-link:hover { background: var(--dubai-surface-2); color: var(--dubai-text); }
+
+/* Opción activa: la pantalla en la que estás ahora mismo */
+.sidebar-link.activo {
+    background: rgba(212, 175, 55, 0.14);
+    color: var(--dubai-gold);
+    font-weight: 500;
+}
+
+/* Módulo de una fase futura: se ve, pero no se puede usar */
+.sidebar-link.deshabilitado {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+.sidebar-pronto {
+    margin-left: auto;
+    font-size: 0.65rem;
+    border: 1px dashed var(--dubai-border);
+    border-radius: 999px;
+    padding: 0.05rem 0.5rem;
+    color: var(--dubai-yellow);
+}
+
+/* Fondo oscuro detrás del sidebar, solo en celular */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1030;
+}
+.sidebar-overlay.visible { display: block; }
+
+/* Botón de hamburguesa (solo celular, Bootstrap ya oculta esto en pantallas grandes) */
+.btn-hamburguesa {
+    background: transparent;
+    border: 1px solid var(--dubai-border);
+    color: var(--dubai-gold);
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+}
+
+/* El contenido NO se mueve en celular: el sidebar flota encima (overlay) */
+.app-content { min-width: 0; }
+
+/* Evita que el fondo se desplace mientras el menú está abierto en celular */
+body.sin-scroll { overflow: hidden; }
+
+/* ---------- 10. PANTALLAS GRANDES: sidebar fijo, sin hamburguesa ---------- */
+@media (min-width: 992px) {
+    .app-shell { display: flex; }
+
+    .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        transform: none;           /* siempre visible: no se oculta */
+    }
+
+    .sidebar-overlay { display: none !important; }  /* no aplica en pantallas grandes */
+
+    .app-content { flex: 1; }
+}
+
+/* ---------- 11. SWEETALERT2 (alertas elegantes) ---------- */
+/* SweetAlert2 ya trae sus variables; aquí las redefinimos con la paleta DUBAI */
+/* !important es necesario aquí: SweetAlert2 inyecta su propio CSS con
+   JavaScript la primera vez que se usa, DESPUÉS de que este archivo ya
+   cargó. Sin !important, su estilo llegaría más tarde y nos ganaría. */
+:root {
+    --swal2-background:               var(--dubai-surface) !important;
+    --swal2-color:                    var(--dubai-text) !important;
+    --swal2-border:                   1px solid var(--dubai-border) !important;
+    --swal2-border-radius:            16px !important;
+    --swal2-backdrop:                 rgba(11, 11, 13, 0.78) !important;
+
+    --swal2-confirm-button-background-color: var(--dubai-gold) !important;
+    --swal2-confirm-button-color:            #1A1505 !important;
+    --swal2-cancel-button-background-color:  var(--dubai-surface-2) !important;
+    --swal2-cancel-button-color:             var(--dubai-text) !important;
+    --swal2-deny-button-background-color:    var(--dubai-danger) !important;
+    --swal2-deny-button-color:               #2A0A0A !important;
+}
+/* El título usa nuestra tipografía de marca */
+.swal2-title { font-family: var(--dubai-fuente-titulo); }
+.swal2-html-container { font-family: var(--dubai-fuente-texto); font-size: 0.95rem; }
+
+/* Toast (el avisito que aparece y se va solo) */
+.swal2-toast {
+    border: 1px solid var(--dubai-border);
+    box-shadow: var(--dubai-shadow);
+}
+
+/* ---------- 12. TABLAS OSCURAS CON BÚSQUEDA Y PAGINACIÓN ---------- */
+.tabla-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.tabla-buscador { max-width: 280px; }
+
+.tabla-dubai-wrap {
+    background: var(--dubai-surface);
+    border: 1px solid var(--dubai-border);
+    border-radius: var(--dubai-radius);
+    overflow: hidden;
+}
+.tabla-dubai {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    /* En celular, si la tabla no cabe, se desplaza DENTRO de su caja (nunca la página entera) */
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.tabla-dubai thead th {
+    background: var(--dubai-surface-2);
+    color: var(--dubai-gold);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--dubai-border);
+    text-align: left;
+}
+.tabla-dubai tbody td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+    font-size: 0.9rem;
+}
+.tabla-dubai tbody tr:last-child td { border-bottom: 0; }
+.tabla-dubai tbody tr:hover { background: var(--dubai-surface-2); }
+
+/* Insignias de estado reutilizables (libre/ocupada, activo/inactivo, etc.) */
+.estado-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.18rem 0.65rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.estado-ok    { background: rgba(111, 207, 151, 0.14); color: var(--dubai-ok); }
+.estado-warn  { background: rgba(242, 184, 75, 0.14);  color: var(--dubai-warn); }
+.estado-danger{ background: rgba(235, 114, 114, 0.14); color: var(--dubai-danger); }
+
+.tabla-paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-top: 1px solid var(--dubai-border);
+    font-size: 0.82rem;
+    color: var(--dubai-muted);
+}
+.tabla-paginacion-botones { display: flex; gap: 0.4rem; }
+.tabla-paginacion button {
+    background: var(--dubai-surface-2);
+    color: var(--dubai-text);
+    border: 1px solid var(--dubai-border);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    font-size: 0.82rem;
+}
+.tabla-paginacion button.activo { background: var(--dubai-gold); color: #1A1505; border-color: var(--dubai-gold); }
+.tabla-paginacion button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Estado vacío (sin resultados / sin datos todavía) */
+.estado-vacio {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--dubai-muted);
+}
+.estado-vacio i { font-size: 2.25rem; color: var(--dubai-border); display: block; margin-bottom: 0.75rem; }
+.estado-vacio p { margin: 0; font-size: 0.9rem; }
+
+/* ---------- 13. MODALES (personalizados sobre Bootstrap) ---------- */
+.modal-content {
+    background: var(--dubai-surface);
+    border: 1px solid var(--dubai-border);
+    border-radius: var(--dubai-radius);
+}
+.modal-header, .modal-footer { border-color: var(--dubai-border); }
+.modal-title { font-family: var(--dubai-fuente-titulo); color: var(--dubai-gold); }
+.btn-close { filter: invert(1) grayscale(1) brightness(1.8); }  /* la X se ve bien en fondo oscuro */

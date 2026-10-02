@@ -43,6 +43,9 @@ spl_autoload_register(function (string $clase): void {
     }
 });
 
-// 5. ROUTER: interpreta la URL y ejecuta el controlador correspondiente
+// 5. SESIÓN SEGURA: se inicia antes del Router para que todo el sistema la use
+Auth::iniciarSesion();
+
+// 6. ROUTER: interpreta la URL y ejecuta el controlador correspondiente
 $router = new Router();
 $router->despachar();

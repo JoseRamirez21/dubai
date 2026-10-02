@@ -37,6 +37,6 @@ define('SESSION_LIFETIME', 1800);    // 30 minutos de inactividad (en segundos)
 
 
 // ---------- Router: qué se ejecuta cuando la URL viene vacía ----------
-// Temporal: en el Paso 8 lo cambiaremos a 'Auth' y 'login'.
-define('DEFAULT_CONTROLLER', 'Prueba');
-define('DEFAULT_METHOD',     'index');
+// Al abrir el sistema sin ruta, se muestra la pantalla de login.
+define('DEFAULT_CONTROLLER', 'Auth');
+define('DEFAULT_METHOD',     'login');

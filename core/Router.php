@@ -64,8 +64,8 @@ class Router
         $clase = $this->controlador . 'Controller';
 
         // class_exists() dispara el autoloader que hicimos en el Paso 2
-        if (!class_exists($clase)) {
-            $this->noEncontrado();
+  if (!class_exists($clase) || !is_subclass_of($clase, 'Controller')) {
+                $this->noEncontrado();
             return;
         }
 
@@ -82,13 +82,11 @@ class Router
         call_user_func_array([$objeto, $this->metodo], $this->parametros);
     }
 
-    /**
-     * Respuesta 404 genérica. No revela información interna del sistema.
-     * (En la Fase 2 la reemplazaremos por una vista con el diseño DUBAI.)
+       /**
+     * Respuesta 404 con el diseño DUBAI. No revela información interna.
      */
     private function noEncontrado(): void
     {
-        http_response_code(404);
-        echo '<h1>404</h1><p>La página que buscas no existe.</p>';
+        (new ErrorController())->noEncontrado();
     }
 }
