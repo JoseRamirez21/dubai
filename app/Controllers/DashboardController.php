@@ -2,9 +2,8 @@
 /**
  * DashboardController: panel de inicio.
  *
- * En la Fase 1 es una pantalla sencilla que confirma el login y muestra qué
- * módulos corresponden a cada rol. En la Fase 2 se convertirá en el dashboard
- * real con indicadores y gráficos.
+ * El administrador ve, además de los módulos, los indicadores y los datos
+ * para los gráficos. Cajero y mesero ven solo el panel simple de módulos.
  */
 class DashboardController extends Controller
 {
@@ -28,15 +27,45 @@ class DashboardController extends Controller
 
     public function index(): void
     {
-        // Verificación en el servidor: sin sesión no se entra
         $this->requerirLogin();
 
         $usuario = Auth::usuario();
+        $esAdmin = $usuario['rol'] === 'administrador';
 
-        $this->vista('dashboard/inicio', [
+        $datos = [
             'titulo'  => 'Panel',
             'usuario' => $usuario,
             'modulos' => self::MODULOS_POR_ROL[$usuario['rol']] ?? [],
-        ]);
+            'esAdmin' => $esAdmin,
+        ];
+
+        // Los indicadores y gráficos solo se calculan si el rol los necesita
+        if ($esAdmin) {
+            $datos += $this->datosDashboard();
+        }
+
+        $this->vista('dashboard/inicio', $datos);
+    }
+
+    /**
+     * Junta los datos de los 4 indicadores y los 2 gráficos.
+     * Está en su propio método para que index() se lea de corrido.
+     */
+    private function datosDashboard(): array
+    {
+        $venta    = new Venta();
+        $entrada  = new Entrada();
+        $mesa     = new Mesa();
+        $producto = new Producto();
+
+        return [
+            'ventasHoy'     => $venta->totalHoy(),
+            'entradasHoy'   => $entrada->vendidasHoy(),
+            'mesasOcupadas' => $mesa->contarPorEstado('ocupada'),
+            'mesasTotal'    => count($mesa->todos()),
+            'stockBajo'     => $producto->stockBajo(),
+            'ventasPorDia'  => $venta->totalesPorDia(7),
+            'productosTop'  => $producto->masVendidos(5),
+        ];
     }
 }

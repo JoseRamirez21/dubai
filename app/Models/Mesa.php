@@ -6,4 +6,16 @@
 class Mesa extends Model
 {
     protected string $tabla = 'mesas';
-}
+     /**
+     * Cuenta cuántas mesas están en un estado dado (ej. 'ocupada').
+     */
+    public function contarPorEstado(string $estado): int
+    {
+        $fila = $this->ejecutar(
+            "SELECT COUNT(*) AS total FROM mesas WHERE estado = :estado",
+            [':estado' => $estado]
+        )->fetch();
+
+        return (int) $fila['total'];
+    }
+}   

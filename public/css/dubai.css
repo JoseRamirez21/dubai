@@ -520,3 +520,45 @@ body.sin-scroll { overflow: hidden; }
 .modal-header, .modal-footer { border-color: var(--dubai-border); }
 .modal-title { font-family: var(--dubai-fuente-titulo); color: var(--dubai-gold); }
 .btn-close { filter: invert(1) grayscale(1) brightness(1.8); }  /* la X se ve bien en fondo oscuro */
+
+
+/* ---------- 14. TARJETAS DE INDICADORES (dashboard) ---------- */
+.indicador-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.indicador-icono {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+/* Cada indicador tiene su propio color de acento, pero todos sobre el mismo fondo oscuro */
+.indicador-dorado { background: rgba(212, 175, 55, 0.14); color: var(--dubai-gold); }
+.indicador-verde  { background: rgba(111, 207, 151, 0.14); color: var(--dubai-ok); }
+.indicador-ambar  { background: rgba(242, 184, 75, 0.14);  color: var(--dubai-warn); }
+.indicador-rojo   { background: rgba(235, 114, 114, 0.14); color: var(--dubai-danger); }
+
+.indicador-valor {
+    font-family: var(--dubai-fuente-titulo);
+    font-size: clamp(1.4rem, 3.2vw, 1.75rem);
+    line-height: 1.15;
+    margin: 0;
+}
+.indicador-etiqueta {
+    color: var(--dubai-muted);
+    font-size: 0.82rem;
+    margin: 0.15rem 0 0;
+}
+
+
+/* ---------- 15. GRÁFICOS (Chart.js) ---------- */
+.grafico-wrap {
+    position: relative;
+    height: 280px;
+}
