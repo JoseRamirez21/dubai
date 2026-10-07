@@ -562,3 +562,13 @@ body.sin-scroll { overflow: hidden; }
     position: relative;
     height: 280px;
 }
+
+
+<h1>Eventos (temporal para pruebas)</h1>
+<form id="formToken"><?= Csrf::campo() ?></form>
+<?php if ($toast): ?><p id="toastMsg" data-tipo="<?= htmlspecialchars($toast['tipo']) ?>"><?= htmlspecialchars($toast['texto']) ?></p><?php endif; ?>
+<ul>
+<?php foreach ($eventos as $e): ?>
+<li id="ev-<?= $e['id'] ?>"><?= htmlspecialchars($e['nombre']) ?> | <?= $e['fecha'] ?> | aforo:<?= $e['vendidas'] ?>/<?= $e['aforo'] ?> | <?= $e['estado'] ?></li>
+<?php endforeach; ?>
+</ul>

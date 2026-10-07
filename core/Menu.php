@@ -31,9 +31,9 @@ class Menu
          'icono' => 'bi-grid-3x3-gap', 'nombre' => 'Mesas y reservas',
          'ruta' => 'mesas', 'disponible' => false],
 
-        ['rol' => ['administrador', 'cajero', 'mesero'],
-         'icono' => 'bi-cup-straw', 'nombre' => 'Productos y ventas',
-         'ruta' => 'productos', 'disponible' => false],
+        ['rol' => ['administrador'],
+         'icono' => 'bi-cup-straw', 'nombre' => 'Productos',
+         'ruta' => 'productos', 'disponible' => true],
     ];
 
     /**
