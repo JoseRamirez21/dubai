@@ -15,6 +15,8 @@ class EventosController extends Controller
         'estado'         => ['tipo' => 'success', 'texto' => 'Estado del evento actualizado.'],
         'error_datos'    => ['tipo' => 'error',   'texto' => 'Revisa los datos: hay campos inválidos.'],
         'error_aforo'    => ['tipo' => 'error',   'texto' => 'El aforo no puede ser menor a las entradas ya vendidas.'],
+        'evento_cerrado' => ['tipo' => 'error',   'texto' => 'Ese evento está cerrado: ya no se pueden vender entradas.'],
+        'aforo_lleno'    => ['tipo' => 'error',   'texto' => 'Ese evento ya alcanzó su aforo máximo.'],
     ];
 
     /**

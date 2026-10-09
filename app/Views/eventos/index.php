@@ -53,6 +53,24 @@
                     <div class="<?= $claseBarra ?>" style="width: <?= $porcentaje ?>%"></div>
                 </div>
 
+                <?php
+                    $agotado     = $aforo > 0 && $vendidas >= $aforo;
+                    $cerrado     = $e['estado'] === 'cerrado';
+                    $puedeVender = !$agotado && !$cerrado;
+                ?>
+                <button type="button" class="btn btn-dubai btn-sm w-100 mb-2"
+                        data-accion="vender"
+                        data-id="<?= (int) $e['id'] ?>"
+                        data-nombre-evento="<?= htmlspecialchars($e['nombre']) ?>"
+                        <?= $puedeVender ? '' : 'disabled' ?>>
+                    <i class="bi bi-ticket-perforated" aria-hidden="true"></i> Vender entrada
+                </button>
+                <?php if (!$puedeVender): ?>
+                    <p class="text-secondary small mb-2">
+                        <?= $cerrado ? 'Evento cerrado.' : 'Aforo agotado.' ?>
+                    </p>
+                <?php endif; ?>
+
                 <?php if ($esAdmin): ?>
                     <div class="d-flex flex-wrap gap-2">
                         <button type="button" class="btn btn-dubai-outline btn-sm"
@@ -157,8 +175,63 @@
 <form id="formEstadoEvento" method="post" class="d-none"><?= Csrf::campo() ?></form>
 <?php endif; ?>
 
+<!-- ---------- Modal: vender entrada (administrador y cajero) ---------- -->
+<div class="modal fade" id="modalVenta" tabindex="-1" aria-labelledby="modalVentaTitulo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="formVenta" class="needs-validation" novalidate>
+                <?= Csrf::campo() ?>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalVentaTitulo">Vender entrada</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary mb-3">Evento: <strong id="ventaNombreEvento"></strong></p>
+
+                    <div class="mb-3">
+                        <label for="campoCliente" class="form-label">Nombre del cliente</label>
+                        <input type="text" class="form-control" id="campoCliente" name="cliente_nombre"
+                               required maxlength="100" data-trim>
+                        <div class="invalid-feedback">Escribe el nombre del cliente.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label d-block">Tipo de entrada</label>
+                        <div class="btn-group w-100" role="group" aria-label="Tipo de entrada">
+                            <input type="radio" class="btn-check" name="tipo" id="tipoGeneral" value="general" checked required>
+                            <label class="btn btn-dubai-outline" for="tipoGeneral">General</label>
+
+                            <input type="radio" class="btn-check" name="tipo" id="tipoVip" value="vip" required>
+                            <label class="btn btn-dubai-outline" for="tipoVip">VIP</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dubai-outline btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-dubai btn-sm">Vender</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    var modalVentaEl = document.getElementById('modalVenta');
+    var modalVenta    = new bootstrap.Modal(modalVentaEl);
+    var formVenta      = document.getElementById('formVenta');
+    var urlBaseVenta    = '<?= BASE_URL ?>';
+
+    document.querySelectorAll('[data-accion="vender"]').forEach(function (boton) {
+        boton.addEventListener('click', function () {
+            formVenta.reset();
+            formVenta.classList.remove('was-validated');
+            formVenta.action = urlBaseVenta + '/entradas/vender/' + boton.dataset.id;
+            document.getElementById('ventaNombreEvento').textContent = boton.dataset.nombreEvento;
+            modalVenta.show();
+        });
+    });
+
     <?php if ($toast): ?>
         Dubai.toast(<?= json_encode($toast['tipo']) ?>, <?= json_encode($toast['texto']) ?>);
     <?php endif; ?>

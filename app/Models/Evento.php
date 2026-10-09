@@ -8,7 +8,27 @@ class Evento extends Model
 
     public const ESTADOS = ['programado', 'en_curso', 'cerrado'];
 
-       /**
+    /**
+     * Todos los eventos, los más recientes primero.
+     */
+    public function todos(): array
+    {
+        return $this->ejecutar("SELECT * FROM eventos ORDER BY fecha DESC")->fetchAll();
+    }
+
+    /**
+     * Eventos que todavía aceptan reservas (no están cerrados).
+     * Se usa para el formulario de "Nueva reserva": no tiene sentido
+     * reservar una mesa para un evento que ya terminó.
+     */
+    public function disponibles(): array
+    {
+        return $this->ejecutar(
+            "SELECT * FROM eventos WHERE estado != 'cerrado' ORDER BY fecha"
+        )->fetchAll();
+    }
+
+    /**
      * Todos los eventos, con el número de entradas vendidas de cada uno
      * (columna "vendidas"), para mostrar el aforo sin hacer una consulta
      * aparte por cada evento.

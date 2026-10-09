@@ -564,11 +564,98 @@ body.sin-scroll { overflow: hidden; }
 }
 
 
-<h1>Eventos (temporal para pruebas)</h1>
-<form id="formToken"><?= Csrf::campo() ?></form>
-<?php if ($toast): ?><p id="toastMsg" data-tipo="<?= htmlspecialchars($toast['tipo']) ?>"><?= htmlspecialchars($toast['texto']) ?></p><?php endif; ?>
-<ul>
-<?php foreach ($eventos as $e): ?>
-<li id="ev-<?= $e['id'] ?>"><?= htmlspecialchars($e['nombre']) ?> | <?= $e['fecha'] ?> | aforo:<?= $e['vendidas'] ?>/<?= $e['aforo'] ?> | <?= $e['estado'] ?></li>
-<?php endforeach; ?>
-</ul>
+
+/* ---------- 17. TICKET IMPRIMIBLE ---------- */
+.ticket-card { max-width: 460px; }
+.ticket-evento {
+    font-family: var(--dubai-fuente-titulo);
+    font-size: 1.3rem;
+    color: var(--dubai-text);
+    text-align: center;
+    margin: 0.5rem 0 0.25rem;
+}
+.ticket-separador {
+    border: none;
+    border-top: 1px dashed var(--dubai-border);
+    margin: 1.25rem 0;
+}
+.ticket-filas { display: flex; flex-direction: column; gap: 0.6rem; }
+.ticket-fila { display: flex; justify-content: space-between; font-size: 0.9rem; }
+.ticket-fila span:first-child { color: var(--dubai-muted); }
+
+.ticket-codigo {
+    text-align: center;
+    margin: 1.25rem 0;
+}
+.ticket-codigo-valor {
+    font-family: "Courier New", monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--dubai-gold);
+    border: 1px dashed var(--dubai-border);
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+    display: inline-block;
+}
+
+/* Al imprimir: solo el ticket, sin botones ni fondo decorativo */
+@media print {
+    .no-imprimir { display: none !important; }
+    body, .login-page { background: #fff !important; }
+    .ticket-card {
+        box-shadow: none !important;
+        border: 1px solid #000 !important;
+    }
+}
+
+
+/* ---------- 18. MAPA DE MESAS ---------- */
+.mapa-zona-titulo {
+    font-family: var(--dubai-fuente-titulo);
+    color: var(--dubai-gold);
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 1.5rem 0 0.75rem;
+}
+.mapa-zona-titulo:first-child { margin-top: 0; }
+
+.mapa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 0.75rem;
+}
+
+.mesa-box {
+    border: none;
+    border-radius: 12px;
+    padding: 0.85rem 0.5rem;
+    text-align: center;
+    color: #0B0B0D;
+    font-size: 0.8rem;
+    transition: transform var(--dubai-rapido), filter var(--dubai-rapido);
+}
+.mesa-box .mesa-numero { display: block; font-weight: 700; font-size: 1.05rem; }
+.mesa-box .mesa-capacidad { display: block; opacity: 0.85; font-size: 0.72rem; }
+
+/* Colores según estado (mismo significado que las etiquetas del resto del sistema) */
+.mesa-libre     { background: var(--dubai-ok); cursor: pointer; }
+.mesa-libre:hover { filter: brightness(1.08); transform: translateY(-2px); }
+.mesa-reservada { background: var(--dubai-warn); cursor: not-allowed; opacity: 0.9; }
+.mesa-ocupada   { background: var(--dubai-danger); cursor: not-allowed; opacity: 0.9; }
+
+.mapa-leyenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--dubai-muted);
+    margin-top: 1rem;
+}
+.mapa-leyenda span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.mapa-leyenda i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+/* Tarjeta de una reserva activa */
+.reserva-card { font-size: 0.88rem; }
+.reserva-card .reserva-titulo { font-weight: 600; margin-bottom: 0.15rem; }

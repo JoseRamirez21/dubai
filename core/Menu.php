@@ -25,7 +25,7 @@ class Menu
 
         ['rol' => ['administrador', 'cajero'],
          'icono' => 'bi-calendar-event', 'nombre' => 'Eventos y entradas',
-         'ruta' => 'eventos', 'disponible' => false],
+         'ruta' => 'eventos', 'disponible' => true],
 
         ['rol' => ['administrador', 'mesero'],
          'icono' => 'bi-grid-3x3-gap', 'nombre' => 'Mesas y reservas',

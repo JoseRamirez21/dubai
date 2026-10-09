@@ -1,7 +1,8 @@
 <?php
 /**
- * Modelo Mesa (adelanto temporal, solo para el Paso 3).
- * En la Fase 5 este modelo crecerá con crear(), actualizar(), etc.
+ * Modelo Mesa: acceso a la tabla "mesas".
+ * Las mesas ya existen desde los datos de ejemplo (Paso 6); aquí no se
+ * crean ni se borran, solo se consultan y se cambia su estado.
  */
 class Mesa extends Model
 {
@@ -17,5 +18,29 @@ class Mesa extends Model
         )->fetch();
 
         return (int) $fila['total'];
+    }
+        /**
+     * Todas las mesas ordenadas por zona y número (para el mapa visual).
+     */
+    public function todas(): array
+    {
+        return $this->ejecutar(
+            "SELECT * FROM mesas ORDER BY zona, numero"
+        )->fetchAll();
+    }
+
+    /**
+     * Cambia el estado de una mesa (libre / reservada / ocupada).
+     * Lo usa ReservasController dentro de una transacción, junto con los
+     * cambios en la tabla "reservas", para que las dos cosas ocurran juntas.
+     */
+    public function actualizarEstado(int $id, string $estado): bool
+    {
+        $stmt = $this->ejecutar(
+            "UPDATE mesas SET estado = :estado WHERE id = :id",
+            [':estado' => $estado, ':id' => $id]
+        );
+
+        return $stmt->rowCount() > 0;
     }
 }   
