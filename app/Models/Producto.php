@@ -86,7 +86,28 @@ class Producto extends Model
 
         return $stmt->rowCount() > 0;
     }
+    /**
+     * Descuenta stock de forma SEGURA ante concurrencia: la condición
+     * "stock >= :cantidad" va DENTRO del mismo UPDATE, no en un SELECT
+     * aparte. Así, aunque dos ventas se cobren al mismo tiempo, MySQL
+     * nunca deja el stock en negativo: si no alcanza, el UPDATE no
+     * afecta ninguna fila y rowCount() da 0.
+     *
+     * Devuelve true si se pudo descontar, false si no había stock suficiente.
+     */
+    public function descontarStock(int $id, int $cantidad): bool
+    {
+        // Igual que en Venta::recalcularTotal(): con EMULATE_PREPARES en
+        // false, cada ":marcador" necesita su propio valor aunque se
+        // repita el nombre. Por eso :cant1 y :cant2, ambos con $cantidad.
+        $stmt = $this->ejecutar(
+            "UPDATE productos SET stock = stock - :cant1
+              WHERE id = :id AND stock >= :cant2",
+            [':cant1' => $cantidad, ':id' => $id, ':cant2' => $cantidad]
+        );
 
+        return $stmt->rowCount() > 0;
+    }
     /**
      * Productos activos cuyo stock llegó al mínimo o menos (alerta de reposición).
      */
@@ -120,4 +141,5 @@ class Producto extends Model
               LIMIT {$limite}"
         )->fetchAll();
     }
+    
 }

@@ -659,3 +659,36 @@ body.sin-scroll { overflow: hidden; }
 /* Tarjeta de una reserva activa */
 .reserva-card { font-size: 0.88rem; }
 .reserva-card .reserva-titulo { font-weight: 600; margin-bottom: 0.15rem; }
+
+
+/* ---------- 19. CUENTAS DE VENTA (Fase 6) ---------- */
+.cuenta-card { font-size: 0.9rem; }
+.cuenta-encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+.cuenta-items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+.cuenta-items li {
+    display: flex;
+    justify-content: space-between;
+    color: var(--dubai-muted);
+    font-size: 0.85rem;
+    border-bottom: 1px dashed var(--dubai-border);
+    padding-bottom: 0.3rem;
+}
+.cuenta-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    color: var(--dubai-gold);
+    margin-bottom: 0.75rem;
+}
